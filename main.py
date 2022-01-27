@@ -26,6 +26,8 @@ def main():
             print("In Russian that would be: ")
             print(cyrillicizeEnglish(choice))
             print()
+        else:
+            print("Could not recognize input language. Please try again.\n")
     print("This should never print")
 
 main()

@@ -73,10 +73,13 @@ def cyrillicizeEnglish(instring):
         if not chr in EN_TO_RU:
             result.append(chr)
         elif chr == "'":
-            prev = instring[c - 1]
+            prev = instring[c - 1].lower()
             if instring[c - 2:c].lower() == "ts":
                 prev = "ц"
-            result.append(hardsoft(prev, chr))
+            next = chr
+            if c < len(instring) - 1:
+                next = instring[c + 1]
+            result.append(hardsoft(prev, next))
         elif chr.lower() == "y":
             vowels = {"a", "e", "i", "o", "u"}
             if c == len(instring) - 1 or instring[c + 1] not in vowels:
@@ -202,10 +205,10 @@ def cyrillicizeEnglish(instring):
 
 def hardsoft(prev, thus):
     defineds = {"j", "h", "y", "ц"}
-    hards = {}
-    softs = {}
+    hards = {"А", "Э", "Ы", "О", "У", "а", "э", "ы", "о", "у"}
+    softs = {"Я", "Е", "И", "Ё", "Ю", "я", "е", "и", "ё", "ю"}
     if prev in defineds:
-        return ""
+        return "ь" #maybe not? idk
     if thus in hards:
         return "ь"
     if thus in softs:
