@@ -69,6 +69,7 @@ def cyrillicizeEnglish(instring):
     c = 0
     while c < len(instring):
         chr = instring[c]
+        #print(str(c) + "" + chr) # debug statement
         if not chr in EN_TO_RU:
             result.append(chr)
         elif chr == "'":
@@ -102,6 +103,7 @@ def cyrillicizeEnglish(instring):
             if c == 0:
                 result.append(EN_TO_RU[chr])
             elif instring[c - 1].lower() == "t":
+                c += 1
                 continue
             elif instring[c - 1] == "C":
                 result.pop()
@@ -188,6 +190,11 @@ def cyrillicizeEnglish(instring):
             else:
                 result.append("ц")
             c += 1
+        elif len(instring) - c > 1 and instring[c:c + 2].lower() == "qu":
+            if chr.isupper():
+                result.append("Кв")
+            else:
+                result.append("кв")
         else:
             result.append(EN_TO_RU[chr])
         c += 1
