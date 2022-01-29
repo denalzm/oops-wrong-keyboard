@@ -4,7 +4,7 @@
 # 2022/01/25 - 2022/01/27
 
 import math, random, io, time
-from english import latinContent
+from english import *
 from russian import *
 
 VNUM = 1.0
@@ -25,6 +25,11 @@ def main():
             print("Latin alphabet detected. Assuming English pronunciations...")
             print("In Russian that would be: ")
             print(cyrillicizeEnglish(choice))
+            print()
+        elif cyrillicContent(choice) > 0.5:
+            print("Cyrillic alphabet detected. Assuming Russian pronunciations...")
+            print("In English that would be: ")
+            print(latinizeRussian(choice))
             print()
         else:
             print("Could not recognize input language. Please try again.\n")

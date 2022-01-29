@@ -4,7 +4,7 @@ EN_TO_RU = {"A":"А",
             "B":"Б",
             "C":"К", # tricky letter
             "D":"Д",
-            "E":"Э", # two options
+            "E":"Е", # Ээ is just uncommon
             "F":"Ф",
             "G":"Г",
             "H":"Х",
@@ -30,7 +30,7 @@ EN_TO_RU = {"A":"А",
             "b":"б",
             "c":"к",
             "d":"д",
-            "e":"э",
+            "e":"е",
             "f":"ф",
             "g":"г",
             "h":"х",
@@ -82,8 +82,8 @@ def cyrillicizeEnglish(instring):
             result.append(hardsoft(prev, next))
         elif chr.lower() == "y":
             vowels = {"a", "e", "i", "o", "u"}
-            if c == len(instring) - 1 or instring[c + 1] not in vowels:
-                if len(instring) > 1 and instring[c - 1] in vowels:
+            if c == len(instring) - 1 or instring[c + 1].lower() not in vowels:
+                if len(instring) > 1 and instring[c - 1].lower() in vowels:
                     result.append(EN_TO_RU[chr])
                 else:
                     if chr.isupper():
@@ -207,13 +207,25 @@ def hardsoft(prev, thus):
     defineds = {"j", "h", "y", "ц"}
     hards = {"А", "Э", "Ы", "О", "У", "а", "э", "ы", "о", "у"}
     softs = {"Я", "Е", "И", "Ё", "Ю", "я", "е", "и", "ё", "ю"}
+    result = "ь"
     if prev in defineds:
-        return "ь" #maybe not? idk
-    if thus in hards:
-        return "ь"
-    if thus in softs:
-        return "ъ"
-    return "ь"
+        result = "ь" #maybe not? idk
+    elif thus in hards:
+        result = "ь"
+    elif thus in softs:
+        result = "ъ"
+    if prev.isupper():
+        result = result.upper()
+    return result
+
+
+def cyrillicContent(instring):
+    cyrset = set("ёъяшертыуиопющэасдфгчйкльжзхцвбнм")
+    counter = 0.0;
+    for chr in instring.lower():
+        if chr in cyrset:
+            counter += 1
+    return counter / len(instring)
 
 # Ё ё Yo yo
 # Ю ю Yu yu
